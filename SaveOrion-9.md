@@ -28,3 +28,7 @@ Print a single integer representing the number of signals with odd binary parity
 ```text
 4
 3 5 7 8
+
+**Output**
+```text
+2
