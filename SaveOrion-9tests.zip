@@ -1,0 +1,44 @@
+import os
+import random
+import zipfile
+
+def solve(arr):
+    return sum(1 for x in arr if bin(x).count('1') % 2 != 0)
+
+def main():
+    os.makedirs("input", exist_ok=True)
+    os.makedirs("output", exist_ok=True)
+
+    tests = [
+        [3, 5, 7, 8],                                     # 00 (Sample 0)
+        [0, 1, 2, 4, 8, 15],                              # 01 (Sample 1)
+        [10**9],                                          # 02
+        [0] * 5,                                          # 03
+        [random.randint(0, 10**9) for _ in range(10)],   # 04
+        [random.randint(0, 10**9) for _ in range(100)],  # 05
+        [(1 << 30) - 1 for _ in range(1000)],             # 06
+        [random.randint(0, 10**9) for _ in range(10000)], # 07
+        [random.randint(0, 10**9) for _ in range(50000)], # 08
+        [random.randint(0, 10**9) for _ in range(100000)],# 09 (Max N)
+    ]
+
+    for idx, arr in enumerate(tests):
+        tag = f"{idx:02d}"
+        in_path = f"input/input{tag}.txt"
+        out_path = f"output/output{tag}.txt"
+
+        with open(in_path, "w") as f:
+            f.write(f"{len(arr)}\n" + " ".join(map(str, arr)))
+
+        ans = solve(arr)
+        with open(out_path, "w") as f:
+            f.write(str(ans))
+
+    with zipfile.ZipFile("VoidSignalParityTests.zip", "w") as z:
+        for folder in ["input", "output"]:
+            for fname in sorted(os.listdir(folder)):
+                z.write(os.path.join(folder, fname))
+    print("VoidSignalParityTests.zip created successfully.")
+
+if __name__ == "__main__":
+    main()
